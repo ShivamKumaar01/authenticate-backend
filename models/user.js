@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       validate:{
         is: /^[a-z]+$/i, 
-        is: ["^[a-z]+$",'i'],
+        
       }
     }
   }, {

@@ -1,5 +1,7 @@
 const { User, Sequelize } = require("./../models");
 const Op = Sequelize.Op;
+const jwt = require('jsonwebtoken');
+require("dotenv").config();
 let self = {};
 
 // creating new user
@@ -59,18 +61,26 @@ self.loginUser = async (req, res) => {
     }
     try {
          // match the password and if password match redirect to dashboard else send error
-        console.log("ye hai data",existUser)
+        // console.log("ye hai data",existUser)
         if(existUser.dataValues.password===req.body.password){
-            return res.status(201).send({
-                success:true,
-                message:"your are logged in bro"
-            })
-            console.log("you are logged in ")
+            // return res.status(201).send({
+            //     success:true,
+            //     message:"your are logged in bro"
+            // })/
+            console.log("ab token print krna hai")
+        const token = jwt.sign({ id: User.id },process.env.JWT_SECRET_KEY, {
+            expiresIn:process.env.EXPIRE_TIME
+        });
+        console.log(token);
+   
+        res.status(200).send({
+            id: User.id,
+            name: User.name,
+            email: User.email,
+            accessToken: token,
+        });
+           
         }
-        
-        
-       
-        
         
     }
     catch (error) {
