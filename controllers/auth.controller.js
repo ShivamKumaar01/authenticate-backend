@@ -2,10 +2,9 @@ const { User, Sequelize } = require("./../models");
 const Op = Sequelize.Op;
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
-let self = {};
 
 // creating new user
-self.createUser = async (req, res) => {
+exports.createUser = async (req, res) => {
     if (!req.body.name || !req.body.email || !req.body.password) {
         return res.status(400).send({
             success: false,
@@ -44,7 +43,7 @@ self.createUser = async (req, res) => {
 };
 
 // login user
-self.loginUser = async (req, res) => {
+exports.loginUser = async (req, res) => {
     if (!req.body.email || !req.body.password) {
         return res.status(400).send({
             success: false,
@@ -67,7 +66,7 @@ self.loginUser = async (req, res) => {
             //     success:true,
             //     message:"your are logged in bro"
             // })/
-            console.log("ab token print krna hai")
+        console.log("ab token print krna hai")
         const token = jwt.sign({ id: User.id },process.env.JWT_SECRET_KEY, {
             expiresIn:process.env.EXPIRE_TIME
         });
@@ -87,4 +86,3 @@ self.loginUser = async (req, res) => {
         console.log(error)
     }
 }
-module.exports = self;
